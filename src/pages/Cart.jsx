@@ -38,13 +38,12 @@ export default function Cart() {
                     {items.map((item) => (
                         <div key={item.id} className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
                             <div className="flex">
-                                <div className="w-20 h-20 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                    <div className="text-3xl">
-                                        {item.category === 'Medicine' && '💊'}
-                                        {item.category === 'PPE' && '🦺'}
-                                        {item.category === 'Equipment' && '🩺'}
-                                        {item.category === 'Emergency Kits' && '🚑'}
-                                    </div>
+                                <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
+                                    <img
+                                        src={item.image}
+                                        alt={item.name}
+                                        className="w-full h-full object-cover"
+                                    />
                                 </div>
 
                                 <div className="flex-1 ml-4">
