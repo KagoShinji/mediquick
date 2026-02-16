@@ -37,13 +37,12 @@ export default function ProductDetails() {
             </div>
 
             {/* Product Image */}
-            <div className="aspect-square bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center">
-                <div className="text-9xl">
-                    {product.category === 'Medicine' && '💊'}
-                    {product.category === 'PPE' && '🦺'}
-                    {product.category === 'Equipment' && '🩺'}
-                    {product.category === 'Emergency Kits' && '🚑'}
-                </div>
+            <div className="aspect-square bg-gray-100 flex items-center justify-center overflow-hidden">
+                <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-cover"
+                />
             </div>
 
             <div className="p-6">
@@ -52,8 +51,8 @@ export default function ProductDetails() {
                     <div className="flex items-start justify-between mb-2">
                         <h1 className="text-2xl font-bold text-gray-900 flex-1">{product.name}</h1>
                         <span className={`badge-stock ${product.stock > 50 ? 'badge-stock-high' :
-                                product.stock > 20 ? 'badge-stock-medium' :
-                                    'badge-stock-low'
+                            product.stock > 20 ? 'badge-stock-medium' :
+                                'badge-stock-low'
                             }`}>
                             {product.stock} in stock
                         </span>

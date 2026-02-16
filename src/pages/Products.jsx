@@ -94,13 +94,12 @@ export default function Products() {
                         onClick={() => navigate(`/product/${product.id}`)}
                         className="card-product cursor-pointer"
                     >
-                        <div className="aspect-square bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center p-4">
-                            <div className="text-6xl">
-                                {product.category === 'Medicine' && '💊'}
-                                {product.category === 'PPE' && '🦺'}
-                                {product.category === 'Equipment' && '🩺'}
-                                {product.category === 'Emergency Kits' && '🚑'}
-                            </div>
+                        <div className="aspect-square bg-gray-100 flex items-center justify-center overflow-hidden">
+                            <img
+                                src={product.image}
+                                alt={product.name}
+                                className="w-full h-full object-cover"
+                            />
                         </div>
                         <div className="p-3">
                             <h3 className="font-semibold text-sm text-gray-900 mb-1 line-clamp-2">

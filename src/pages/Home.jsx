@@ -106,13 +106,12 @@ export default function Home() {
                                     onClick={() => navigate(`/product/${product.id}`)}
                                     className="card-product cursor-pointer"
                                 >
-                                    <div className="aspect-square bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center p-4">
-                                        <div className="text-6xl">
-                                            {product.category === 'Medicine' && '💊'}
-                                            {product.category === 'PPE' && '🦺'}
-                                            {product.category === 'Equipment' && '🩺'}
-                                            {product.category === 'Emergency Kits' && '🚑'}
-                                        </div>
+                                    <div className="aspect-square bg-gray-100 flex items-center justify-center overflow-hidden">
+                                        <img
+                                            src={product.image}
+                                            alt={product.name}
+                                            className="w-full h-full object-cover"
+                                        />
                                     </div>
                                     <div className="p-3">
                                         <h3 className="font-semibold text-sm text-gray-900 mb-1 line-clamp-2">
@@ -146,13 +145,12 @@ export default function Home() {
                                     onClick={() => navigate(`/product/${product.id}`)}
                                     className="card-product cursor-pointer flex"
                                 >
-                                    <div className="w-24 h-24 bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center flex-shrink-0">
-                                        <div className="text-4xl">
-                                            {product.category === 'Medicine' && '💊'}
-                                            {product.category === 'PPE' && '🦺'}
-                                            {product.category === 'Equipment' && '🩺'}
-                                            {product.category === 'Emergency Kits' && '🚑'}
-                                        </div>
+                                    <div className="w-24 h-24 bg-gray-100 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                                        <img
+                                            src={product.image}
+                                            alt={product.name}
+                                            className="w-full h-full object-cover"
+                                        />
                                     </div>
                                     <div className="flex-1 p-3">
                                         <h3 className="font-semibold text-sm text-gray-900 mb-1">{product.name}</h3>
