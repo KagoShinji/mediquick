@@ -1,0 +1,48 @@
+import { Package, Percent, AlertCircle, Info } from 'lucide-react';
+
+export const notifications = [
+    {
+        id: 1,
+        title: 'Order Delivered',
+        message: 'Your order #ORD-2024-001 has been delivered successfully. Please rate your rider.',
+        time: '2 hours ago',
+        read: false,
+        type: 'order',
+        icon: Package,
+        color: 'text-green-600',
+        bgColor: 'bg-green-100',
+    },
+    {
+        id: 2,
+        title: 'Flash Sale Alert! ⚡',
+        message: 'Get 50% off on all Vitamin C products today only! Valid until midnight.',
+        time: '5 hours ago',
+        read: false,
+        type: 'promo',
+        icon: Percent,
+        color: 'text-orange-600',
+        bgColor: 'bg-orange-100',
+    },
+    {
+        id: 3,
+        title: 'System Maintenance',
+        message: 'Scheduled maintenance on Feb 20, 2:00 AM - 4:00 AM. Services may be unavailable.',
+        time: '1 day ago',
+        read: true,
+        type: 'system',
+        icon: AlertCircle,
+        color: 'text-blue-600',
+        bgColor: 'bg-blue-100',
+    },
+    {
+        id: 4,
+        title: 'New Pharmacies Added',
+        message: 'We have added 3 new pharmacy partners in your area. Check them out!',
+        time: '2 days ago',
+        read: true,
+        type: 'info',
+        icon: Info,
+        color: 'text-purple-600',
+        bgColor: 'bg-purple-100',
+    },
+];

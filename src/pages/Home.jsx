@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, MapPin, Bell, ShoppingCart, Star } from 'lucide-react';
+import { Search, MapPin, Bell, ShoppingCart, Star, X } from 'lucide-react';
 import { categories, products, suppliers } from '../data/mockData';
+import { notifications } from '../data/notifications';
 import { useCartStore, useAuthStore } from '../store';
 import BottomNav from '../components/BottomNav';
 
@@ -11,6 +12,21 @@ export default function Home() {
     const cartItemCount = useCartStore((state) => state.getItemCount());
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedCategory, setSelectedCategory] = useState(null);
+    const [showNotifications, setShowNotifications] = useState(false);
+    const notificationRef = useRef(null);
+
+    // Close notifications when clicking outside
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+                setShowNotifications(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
 
     const filteredProducts = products.filter(product => {
         const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
@@ -19,21 +35,75 @@ export default function Home() {
     });
 
     const featuredProducts = products.slice(0, 4);
+    const unreadCount = notifications.filter(n => !n.read).length;
 
     return (
         <div className="container-app pb-20">
             {/* Header */}
-            <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-6 rounded-b-3xl shadow-lg">
+            <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-6 rounded-b-3xl shadow-lg relative z-20">
                 <div className="flex items-center justify-between mb-4">
                     <div>
                         <p className="text-blue-100 text-sm">Welcome back,</p>
                         <h1 className="text-white text-xl font-bold">{user?.name || 'Guest'}</h1>
                     </div>
                     <div className="flex items-center space-x-3">
-                        <button className="relative p-2 bg-white/20 rounded-full hover:bg-white/30 transition-colors">
-                            <Bell className="w-6 h-6 text-white" />
-                            <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
-                        </button>
+                        <div className="relative" ref={notificationRef}>
+                            <button
+                                onClick={() => setShowNotifications(!showNotifications)}
+                                className="relative p-2 bg-white/20 rounded-full hover:bg-white/30 transition-colors"
+                            >
+                                <Bell className="w-6 h-6 text-white" />
+                                {unreadCount > 0 && (
+                                    <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 border-2 border-blue-600 rounded-full"></span>
+                                )}
+                            </button>
+
+                            {/* Notification Dropdown */}
+                            {showNotifications && (
+                                <div className="absolute right-0 mt-2 w-80 bg-white rounded-2xl shadow-xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 origin-top-right border border-gray-100 z-50">
+                                    <div className="p-4 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
+                                        <h3 className="font-bold text-gray-800">Notifications</h3>
+                                        <span className="text-xs font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded-full">
+                                            {unreadCount} New
+                                        </span>
+                                    </div>
+                                    <div className="max-h-[320px] overflow-y-auto">
+                                        {notifications.map((notification) => (
+                                            <div
+                                                key={notification.id}
+                                                className={`p-4 border-b border-gray-50 hover:bg-gray-50 transition-colors cursor-pointer ${!notification.read ? 'bg-blue-50/30' : ''}`}
+                                            >
+                                                <div className="flex items-start space-x-3">
+                                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${notification.bgColor}`}>
+                                                        <notification.icon className={`w-4 h-4 ${notification.color}`} />
+                                                    </div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <h4 className={`text-sm font-semibold mb-0.5 ${!notification.read ? 'text-gray-900' : 'text-gray-600'}`}>
+                                                            {notification.title}
+                                                        </h4>
+                                                        <p className="text-xs text-gray-500 leading-snug mb-1.5 line-clamp-2">
+                                                            {notification.message}
+                                                        </p>
+                                                        <span className="text-[10px] text-gray-400 font-medium">
+                                                            {notification.time}
+                                                        </span>
+                                                    </div>
+                                                    {!notification.read && (
+                                                        <span className="w-2 h-2 bg-blue-500 rounded-full mt-1.5"></span>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div className="p-2 bg-gray-50 border-t border-gray-100">
+                                        <button className="w-full py-2 text-xs font-medium text-gray-600 hover:text-blue-600 hover:bg-white rounded-lg transition-all text-center">
+                                            Mark all as read
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
                         <button
                             onClick={() => navigate('/cart')}
                             className="relative p-2 bg-white/20 rounded-full hover:bg-white/30 transition-colors"

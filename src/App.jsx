@@ -18,11 +18,17 @@ import SavedAddresses from './pages/SavedAddresses';
 import PaymentMethods from './pages/PaymentMethods';
 import AccountSettings from './pages/AccountSettings';
 import HelpSupport from './pages/HelpSupport';
+import ChatBot from './components/ChatBot';
 
 // Protected Route Component
 function ProtectedRoute({ children }) {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   return isAuthenticated ? children : <Navigate to="/login" />;
+}
+
+function ChatBotWrapper() {
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  return isAuthenticated ? <ChatBot /> : null;
 }
 
 function App() {
@@ -136,6 +142,7 @@ function App() {
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
+      <ChatBotWrapper />
     </Router>
   );
 }
