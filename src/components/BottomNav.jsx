@@ -1,15 +1,17 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Home, Package, User, ShoppingBag } from 'lucide-react';
+import { useLanguage } from '../lib/LanguageContext';
 
 export default function BottomNav() {
     const location = useLocation();
     const navigate = useNavigate();
+    const { t } = useLanguage();
 
     const navItems = [
-        { icon: Home, label: 'Home', path: '/home' },
-        { icon: ShoppingBag, label: 'Products', path: '/products' },
-        { icon: Package, label: 'Orders', path: '/orders' },
-        { icon: User, label: 'Profile', path: '/profile' },
+        { icon: Home, label: t('home'), path: '/home' },
+        { icon: ShoppingBag, label: t('products'), path: '/products' },
+        { icon: Package, label: t('orders'), path: '/orders' },
+        { icon: User, label: t('profile'), path: '/profile' },
     ];
 
     return (
@@ -24,8 +26,8 @@ export default function BottomNav() {
                             key={item.path}
                             onClick={() => navigate(item.path)}
                             className={`flex flex-col items-center justify-center py-2 px-4 md:px-6 lg:px-8 rounded-lg transition-all ${isActive
-                                    ? 'text-blue-600'
-                                    : 'text-gray-400 hover:text-gray-600'
+                                ? 'text-blue-600'
+                                : 'text-gray-400 hover:text-gray-600'
                                 }`}
                         >
                             <Icon

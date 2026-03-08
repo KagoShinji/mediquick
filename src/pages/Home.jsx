@@ -1,10 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, MapPin, Bell, ShoppingCart, Star, X } from 'lucide-react';
-import { categories, products, suppliers } from '../data/mockData';
+import { Search, MapPin, Bell, ShoppingCart, Star, FileText, Stethoscope } from 'lucide-react';
+import { categories, products, suppliers, illnesses } from '../data/mockData';
 import { notifications } from '../data/notifications';
 import { useCartStore, useAuthStore } from '../store';
 import BottomNav from '../components/BottomNav';
+import { useLanguage } from '../lib/LanguageContext';
 
 export default function Home() {
     const navigate = useNavigate();
@@ -14,6 +15,7 @@ export default function Home() {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [showNotifications, setShowNotifications] = useState(false);
     const notificationRef = useRef(null);
+    const { t } = useLanguage();
 
     // Close notifications when clicking outside
     useEffect(() => {
@@ -140,7 +142,7 @@ export default function Home() {
             <div className="p-6">
                 {/* Categories */}
                 <div className="mb-6">
-                    <h2 className="text-lg font-bold text-gray-900 mb-4">Categories</h2>
+                    <h2 className="text-lg font-bold text-gray-900 mb-4">{t('categories')}</h2>
                     <div className="grid grid-cols-4 md:grid-cols-4 lg:grid-cols-4 gap-3 md:gap-4">
                         {categories.map((category) => (
                             <button
@@ -154,6 +156,60 @@ export default function Home() {
                                 <p className="text-xs font-medium text-gray-700 text-center">{category.name}</p>
                             </button>
                         ))}
+                    </div>
+                </div>
+
+                {/* Common Illnesses */}
+                <div className="mb-6">
+                    <div className="flex items-center justify-between mb-4">
+                        <h2 className="text-lg font-bold text-gray-900">{t('commonIllnesses')}</h2>
+                        <span className="text-xs text-gray-400 font-medium">Scroll →</span>
+                    </div>
+                    <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1 scrollbar-hide">
+                        {illnesses.map((illness) => (
+                            <button
+                                key={illness.id}
+                                onClick={() => navigate(`/illness-guide/${illness.id}`)}
+                                className="flex-shrink-0 flex flex-col items-center justify-center w-20 h-24 rounded-2xl border transition-all duration-200 hover:scale-105 active:scale-95 shadow-sm"
+                                style={{ backgroundColor: illness.bg, borderColor: `${illness.color}30` }}
+                            >
+                                <span className="text-3xl mb-2">{illness.icon}</span>
+                                <span className="text-xs font-semibold text-center leading-tight px-1" style={{ color: illness.color }}>
+                                    {illness.name}
+                                </span>
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Quick Actions */}
+                <div className="mb-6">
+                    <h2 className="text-lg font-bold text-gray-900 mb-3">{t('quickActions')}</h2>
+                    <div className="grid grid-cols-2 gap-3">
+                        <button
+                            onClick={() => navigate('/prescription')}
+                            className="flex items-center gap-3 p-4 bg-blue-50 rounded-2xl border border-blue-100 hover:bg-blue-100 active:scale-95 transition-all duration-200 text-left"
+                        >
+                            <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <FileText className="w-5 h-5 text-white" />
+                            </div>
+                            <div>
+                                <p className="text-sm font-bold text-blue-900 leading-tight">{t('uploadPrescription')}</p>
+                                <p className="text-xs text-blue-500 mt-0.5 leading-tight">{t('verifiedByPharmacist')}</p>
+                            </div>
+                        </button>
+                        <button
+                            onClick={() => navigate('/symptom-checker')}
+                            className="flex items-center gap-3 p-4 bg-emerald-50 rounded-2xl border border-emerald-100 hover:bg-emerald-100 active:scale-95 transition-all duration-200 text-left"
+                        >
+                            <div className="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <Stethoscope className="w-5 h-5 text-white" />
+                            </div>
+                            <div>
+                                <p className="text-sm font-bold text-emerald-900 leading-tight">{t('symptomChecker')}</p>
+                                <p className="text-xs text-emerald-500 mt-0.5 leading-tight">{t('findMedicines')}</p>
+                            </div>
+                        </button>
                     </div>
                 </div>
 

@@ -19,6 +19,9 @@ import PaymentMethods from './pages/PaymentMethods';
 import AccountSettings from './pages/AccountSettings';
 import HelpSupport from './pages/HelpSupport';
 import ChatBot from './components/ChatBot';
+import IllnessGuide from './pages/IllnessGuide';
+import PrescriptionUpload from './pages/PrescriptionUpload';
+import SymptomChecker from './pages/SymptomChecker';
 
 // Protected Route Component
 function ProtectedRoute({ children }) {
@@ -135,6 +138,30 @@ function App() {
           element={
             <ProtectedRoute>
               <HelpSupport />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/illness-guide/:id"
+          element={
+            <ProtectedRoute>
+              <IllnessGuide />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/prescription"
+          element={
+            <ProtectedRoute>
+              <PrescriptionUpload />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/symptom-checker"
+          element={
+            <ProtectedRoute>
+              <SymptomChecker />
             </ProtectedRoute>
           }
         />
