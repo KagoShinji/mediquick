@@ -97,6 +97,12 @@ export default function Login() {
                             Sign Up
                         </Link>
                     </p>
+                    <p className="text-sm text-gray-500 mt-3">
+                        Are you a delivery rider?{' '}
+                        <Link to="/rider/login" className="text-emerald-600 hover:text-emerald-700 font-semibold">
+                            Open Rider Portal
+                        </Link>
+                    </p>
                 </div>
             </div>
 
