@@ -16,7 +16,7 @@ export default function Login() {
     const handleSubmit = (e) => {
         e.preventDefault();
         // Mock login - in real app, validate credentials
-        login(mockUser);
+        login({ ...mockUser, role: 'customer' });
         navigate('/home');
     };
 
@@ -101,6 +101,12 @@ export default function Login() {
                         Are you a delivery rider?{' '}
                         <Link to="/rider/login" className="text-emerald-600 hover:text-emerald-700 font-semibold">
                             Open Rider Portal
+                        </Link>
+                    </p>
+                    <p className="text-sm text-gray-500 mt-2">
+                        Are you a medical supplier?{' '}
+                        <Link to="/supplier/login" className="text-amber-600 hover:text-amber-700 font-semibold">
+                            Open Supplier Portal
                         </Link>
                     </p>
                 </div>

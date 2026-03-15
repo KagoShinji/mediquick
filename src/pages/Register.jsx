@@ -30,6 +30,7 @@ export default function Register() {
             email: formData.email,
             phone: formData.phone,
             userType: formData.userType,
+            role: 'customer',
         });
 
         navigate('/home');

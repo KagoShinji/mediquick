@@ -92,6 +92,12 @@ export default function RiderLogin() {
                             Go to customer login
                         </Link>
                     </p>
+                    <p className="text-center text-sm text-gray-600 mt-2">
+                        Supplier partner?{' '}
+                        <Link to="/supplier/login" className="font-semibold text-amber-600 hover:text-amber-700">
+                            Open supplier portal
+                        </Link>
+                    </p>
                 </div>
             </div>
         </div>

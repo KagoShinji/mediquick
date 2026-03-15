@@ -5,6 +5,7 @@ import { useAuthStore } from './store';
 import SplashScreen from './pages/SplashScreen';
 import Login from './pages/Login';
 import RiderLogin from './pages/RiderLogin';
+import SupplierLogin from './pages/SupplierLogin';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import Home from './pages/Home';
@@ -24,11 +25,15 @@ import IllnessGuide from './pages/IllnessGuide';
 import PrescriptionUpload from './pages/PrescriptionUpload';
 import SymptomChecker from './pages/SymptomChecker';
 import RiderDelivery from './pages/RiderDelivery';
+import SupplierPortal from './pages/SupplierPortal';
 
 // Protected Route Component
 function ProtectedRoute({ children }) {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  return isAuthenticated ? children : <Navigate to="/login" />;
+  const user = useAuthStore((state) => state.user);
+  const isCustomer = !user?.role || user?.role === 'customer';
+
+  return isAuthenticated && isCustomer ? children : <Navigate to="/login" />;
 }
 
 function RiderProtectedRoute({ children }) {
@@ -38,10 +43,18 @@ function RiderProtectedRoute({ children }) {
   return isAuthenticated && user?.role === 'rider' ? children : <Navigate to="/rider/login" />;
 }
 
+function SupplierProtectedRoute({ children }) {
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const user = useAuthStore((state) => state.user);
+
+  return isAuthenticated && user?.role === 'supplier' ? children : <Navigate to="/supplier/login" />;
+}
+
 function ChatBotWrapper() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const user = useAuthStore((state) => state.user);
-  return isAuthenticated && user?.role !== 'rider' ? <ChatBot /> : null;
+  const isCustomer = !user?.role || user?.role === 'customer';
+  return isAuthenticated && isCustomer ? <ChatBot /> : null;
 }
 
 function App() {
@@ -52,6 +65,7 @@ function App() {
         <Route path="/" element={<SplashScreen />} />
         <Route path="/login" element={<Login />} />
         <Route path="/rider/login" element={<RiderLogin />} />
+        <Route path="/supplier/login" element={<SupplierLogin />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
 
@@ -61,6 +75,15 @@ function App() {
             <RiderProtectedRoute>
               <RiderDelivery />
             </RiderProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/supplier/portal"
+          element={
+            <SupplierProtectedRoute>
+              <SupplierPortal />
+            </SupplierProtectedRoute>
           }
         />
 
